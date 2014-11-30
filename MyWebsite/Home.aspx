@@ -14,6 +14,8 @@
 &nbsp;to load data in gridview<br />
     <asp:GridView ID="GV1" runat="server">
     </asp:GridView>
+    <asp:DataGrid ID="DG1" runat="server">
+    </asp:DataGrid>
     </form>
 </body>
 </html>

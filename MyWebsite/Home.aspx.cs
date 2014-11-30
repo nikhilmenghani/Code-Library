@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using database_connectiom;
 using System.Data;
+using System.Data.SqlClient;
 
 public partial class Home : System.Web.UI.Page
 {
@@ -33,10 +34,17 @@ public partial class Home : System.Web.UI.Page
     }
     protected void btnGridDisplay_Click(object sender, EventArgs e)
     {
+        string qry = "select * from emp";
         //dbc.executeIUD("insert into emp values (4, 'Ruhita', 20000, 2)");
-        DataTable dt = dbc.executeSelectQueryWithDT("select * from emp");
-        GV1.DataSource = dt;
+        //DataTable dt = dbc.executeSelectQueryWithDT(qry);
+        //SqlDataReader dr = dbc.executeSelectQueryWithDR(qry);
+        DataSet ds = new DataSet();
+        ds = dbc.executeSelectQueryWithDS(qry);
+        //DG1.AutoGenerateColumns = true;
+        GV1.DataSource = ds.Tables[0];
         GV1.DataBind();
-        Persist.print = "<br />Success!";
+        DG1.DataSource = ds.Tables[0];
+        DG1.DataBind();
+        //Persist.print = "<br />Success!";
     }
 }

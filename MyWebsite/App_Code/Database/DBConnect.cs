@@ -13,19 +13,24 @@ namespace database_connectiom
         SqlConnection con;
         SqlCommand cmd;
         string str = "server=SREERAJ-PC;integrated security=true;database=MyDb";
+        
         public DBConnect()
         {
             con = new SqlConnection(str);
 
         }
+        
         public void openConnection()
         {
             con.Open();
         }
+        
         public void closeConnection()
         {
             con.Close();
         }
+        
+        //Connected Architecture
         public void executeIUD(string query)
         {
             cmd = new SqlCommand(query, con);
@@ -34,9 +39,39 @@ namespace database_connectiom
             closeConnection();
         }
 
-        public void callProcedure(string procedureName, string paramameters)
+        public SqlDataReader executeSelectQueryWithDR(string query)
         {
-            string[] arr = paramameters.Split(',');
+            cmd = new SqlCommand(query, con);
+            openConnection();
+            return cmd.ExecuteReader();
+        }
+
+        //Disconnected Arhitecture
+        public SqlDataAdapter getSqlDataAdapter(string query)
+        {
+            cmd = new SqlCommand(query, con);
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            return sda;
+        }
+
+        public DataTable executeSelectQueryWithDT(string query)
+        {
+            DataTable dt = new DataTable();
+            getSqlDataAdapter(query).Fill(dt);
+            return dt;
+        }
+
+        public DataSet executeSelectQueryWithDS(string query)
+        {
+            DataSet ds = new DataSet();
+            getSqlDataAdapter(query).Fill(ds);
+            return ds;
+        }
+
+        //function to call any procedure
+        public void callProcedure(string procedureName, string parameters)
+        {
+            string[] arr = parameters.Split(',');
             ArrayList list = new ArrayList();
             foreach (var item in arr)
             {
@@ -58,14 +93,6 @@ namespace database_connectiom
             openConnection();
             cmd.ExecuteNonQuery();
             closeConnection();
-        }
-        public DataTable executeSelectQueryWithDT(string query)
-        {
-            cmd = new SqlCommand(query, con);
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            return dt;
         }
     }
 }
