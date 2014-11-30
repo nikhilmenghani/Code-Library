@@ -18,10 +18,10 @@ public class Read
 
     public string getStringFromFile()
     {
+        string str = "";
         reader = new StreamReader(path);
-        string str = reader.ReadToEnd();
+        str = reader.ReadToEnd();
         reader.Close();
-        Persist.print = str;
         return str;
     }
 }
