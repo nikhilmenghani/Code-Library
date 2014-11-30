@@ -8,9 +8,12 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        Welcome to the page.. <%= Persist.print %>
-    </div>
+    Click
+    <asp:Button ID="btnGridDisplay" runat="server" onclick="btnGridDisplay_Click" 
+        Text="Button" />
+&nbsp;to load data in gridview<br />
+    <asp:GridView ID="GV1" runat="server">
+    </asp:GridView>
     </form>
 </body>
 </html>
